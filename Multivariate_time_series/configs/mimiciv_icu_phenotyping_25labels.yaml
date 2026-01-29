@@ -1,0 +1,42 @@
+# MIMIC-IV ICU phenotyping (25 labels; multilabel)
+# Multivariate time-series representation (gridded + imputed parquet).
+# NOTE: Update these paths and label_prefix to match your local data schema.
+
+data:
+  train_demo: data/EHR_regular/MIMICIV/icu_phenotyping-1h/train/demo.parquet
+  train_ts:   data/EHR_regular/MIMICIV/icu_phenotyping-1h/train/ts.parquet
+  val_demo:   data/EHR_regular/MIMICIV/icu_phenotyping-1h/tuning/demo.parquet
+  val_ts:     data/EHR_regular/MIMICIV/icu_phenotyping-1h/tuning/ts.parquet
+  test_demo:  data/EHR_regular/MIMICIV/icu_phenotyping-1h/held_out/demo.parquet
+  test_ts:    data/EHR_regular/MIMICIV/icu_phenotyping-1h/held_out/ts.parquet
+
+task:
+  num_labels: 25
+  # If your demo.parquet uses a different naming convention, change this.
+  label_prefix: "label_"
+
+models:
+  mlp:
+    hidden: 128
+  transformer:
+    d_model: 64
+    nhead: 4
+    num_layers: 2
+  lstm:
+    hidden_size: 128
+    num_layers: 2
+    bidirectional: true
+  retain:
+    hidden_size: 128
+
+training:
+  epochs: 20
+  batch_size: 32
+  lr: 0.001
+
+checkpoint:
+  dir: checkpoints
+  save_every: 40
+
+logging:
+  dir: logs

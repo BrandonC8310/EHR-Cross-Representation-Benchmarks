@@ -1,0 +1,46 @@
+# EHRSHOT 1-year pancreatic cancer prediction (multivariate time-series representation)
+# Max missing rate threshold: 1.0 (as encoded in the data directory name)
+
+# Data paths
+data:
+  train_demo: data/EHRSHOT/new_pancan-1h-T168-MaxMissRate1.0/train/demo.parquet
+  train_ts:   data/EHRSHOT/new_pancan-1h-T168-MaxMissRate1.0/train/ts.parquet
+  val_demo:   data/EHRSHOT/new_pancan-1h-T168-MaxMissRate1.0/tuning/demo.parquet
+  val_ts:     data/EHRSHOT/new_pancan-1h-T168-MaxMissRate1.0/tuning/ts.parquet
+  test_demo:  data/EHRSHOT/new_pancan-1h-T168-MaxMissRate1.0/held_out/demo.parquet
+  test_ts:    data/EHRSHOT/new_pancan-1h-T168-MaxMissRate1.0/held_out/ts.parquet
+
+# Model-specific configurations
+models:
+  mlp:
+    # Use single value for original 2-layer architecture: hidden: 128
+    # Or use list for custom architecture: hidden_sizes: [256, 128, 64]
+    hidden: 256  # Original architecture that works
+    
+  transformer:
+    d_model: 64         
+    nhead: 4             
+    num_layers: 2        
+  
+  lstm:
+    hidden_size: 256    # LSTM hidden state size
+    num_layers: 2       # Number of LSTM layers
+    bidirectional: true # Use bidirectional LSTM
+  
+  retain:
+    hidden_size: 256    # Hidden size for attention RNNs
+
+# Training configuration (shared across models)
+training:
+  epochs: 20            # Number of training epochs
+  batch_size: 16        # Batch size
+  lr: 0.001            # Learning rate
+
+# Checkpoint configuration
+checkpoint:
+  dir: checkpoints      # Base directory for checkpoints
+  save_every: 40       # Save checkpoint every N epochs
+
+# Logging configuration
+logging:
+  dir: logs            # Directory for log files

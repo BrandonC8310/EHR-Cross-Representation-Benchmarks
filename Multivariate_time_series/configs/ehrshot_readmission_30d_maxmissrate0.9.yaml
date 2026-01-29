@@ -1,0 +1,46 @@
+# EHRSHOT 30-day readmission (multivariate time-series representation)
+# Max missing rate threshold: 0.9 (as encoded in the data directory name)
+
+# Data paths
+data:
+  train_demo: data/EHRSHOT/guo_readmission-1h-T168-MaxMissRate0.9/train/demo.parquet
+  train_ts:   data/EHRSHOT/guo_readmission-1h-T168-MaxMissRate0.9/train/ts.parquet
+  val_demo:   data/EHRSHOT/guo_readmission-1h-T168-MaxMissRate0.9/tuning/demo.parquet
+  val_ts:     data/EHRSHOT/guo_readmission-1h-T168-MaxMissRate0.9/tuning/ts.parquet
+  test_demo:  data/EHRSHOT/guo_readmission-1h-T168-MaxMissRate0.9/held_out/demo.parquet
+  test_ts:    data/EHRSHOT/guo_readmission-1h-T168-MaxMissRate0.9/held_out/ts.parquet
+
+# Model-specific configurations
+models:
+  mlp:
+    # Use single value for original 2-layer architecture: hidden: 128
+    # Or use list for custom architecture: hidden_sizes: [256, 128, 64]
+    hidden: 128  # Original architecture that works
+    
+  transformer:
+    d_model: 64        
+    nhead: 4            
+    num_layers: 2       
+  
+  lstm:
+    hidden_size: 128    # LSTM hidden state size
+    num_layers: 2       # Number of LSTM layers
+    bidirectional: true # Use bidirectional LSTM
+  
+  retain:
+    hidden_size: 128    # Hidden size for attention RNNs
+
+# Training configuration (shared across models)
+training:
+  epochs: 20            # Number of training epochs
+  batch_size: 32        # Batch size
+  lr: 0.001            # Learning rate
+
+# Checkpoint configuration
+checkpoint:
+  dir: checkpoints      # Base directory for checkpoints
+  save_every: 40       # Save checkpoint every N epochs
+
+# Logging configuration
+logging:
+  dir: logs            # Directory for log files
