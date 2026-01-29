@@ -1,0 +1,21 @@
+# Ignore datasets
+data/
+*.parquet
+*.csv
+*.npy
+
+# Ignore checkpoints / models
+*.pt
+*.pth
+
+# Ignore logs
+logs/
+*.out
+*.log
+
+# Ignore temp
+__pycache__/
+*.ipynb_checkpoints/
+
+experiments/
+checkpoints/
